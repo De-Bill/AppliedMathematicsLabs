@@ -12,7 +12,7 @@ def get_fibonacci_numbers(n):
     return nums
 
 
-def fibonacci_search(func : function, left_border, right_border, precision, n_iters):
+def fibonacci_search(func: function, left_border: float, right_border: float, precision: float, n_iters: int):
     fib_nums = get_fibonacci_numbers(n_iters)
     a = left_border + fib_nums[n_iters - 2] / fib_nums[n_iters] * (right_border - left_border)
     b = left_border + fib_nums[n_iters - 1] / fib_nums[n_iters] * (right_border - left_border)
