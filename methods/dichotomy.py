@@ -24,7 +24,3 @@ def dichotomy_search(func, left_border: float, right_border: float, precision: f
         iters_data = np.append(iters_data, [left_border, right_border, middlex, func(middlex)])
 
     return middlex, func(middlex), iters_data.reshape((iters_data.size // 4, 4))
-
-
-print("-------------------DICHOTOMY------------------")
-print("the end")

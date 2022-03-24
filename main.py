@@ -5,6 +5,7 @@ import openpyxl
 from methods.fibonacci import fibonacci_search
 from methods.golden_ratio import golden_ratio_search
 from methods.dichotomy import dichotomy_search
+from methods.parabola import parabola_search
 
 
 def function(x):
@@ -26,7 +27,13 @@ dich = dichotomy_search(function, 1, 7, 0.01)
 df_dich = pd.DataFrame(data=dich[2], columns=['left_border', 'right_border', 'middle', 'f(middle)'])
 print(df_dich)
 
+print('--------------Parabola-Search-----------------------')
+por = parabola_search(function, 1, 7, 0.01)
+df_por = pd.DataFrame(data=por[2], columns=['left_border', 'right_border', 'minimum', 'f(minimum)'])
+print(df_por)
+
 with pd.ExcelWriter("AppliedMathsTest.xlsx") as writer:
     df_gr.to_excel(writer, sheet_name='GoldenRatio')
     df_fib.to_excel(writer, sheet_name='Fibonacci')
     df_dich.to_excel(writer, sheet_name='Dichotomy')
+    df_por.to_excel(writer, sheet_name='Parabola')
