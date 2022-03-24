@@ -1,19 +1,16 @@
-import math
-
-import function
+import numpy as np
 
 
-def golden_section_search(func: function, left_border: float, right_border: float, precision: float):
-    k = (math.sqrt(5) - 1) / 2
+def golden_ratio_search(func, left_border: float, right_border: float, precision: float):
+    k = (np.sqrt(5) - 1) / 2
+
     length0 = right_border - left_border  # start length
     length_next = k * length0  #
     a = right_border - length_next
     b = left_border + length_next
     f_a, f_b = func(a), func(b)
     i = 0
-    print('------------Golden-Section-Search-------------------')
-    print(' N    l_b      r_b      a      b       f_a      f_b')
-    print(f"{i:2}    {left_border:.2f}    {right_border:.2f}    {a:.2f}    {b:.2f}    {f_a:.2f}    {f_b:.2f}")
+    iters_data = np.array([left_border, right_border, a, b, f_a, f_b])
     while length_next >= precision:
         i += 1
         length_next = k * length_next
@@ -27,6 +24,6 @@ def golden_section_search(func: function, left_border: float, right_border: floa
             b = a
             a = right_border - length_next
             f_a, f_b = func(a), f_a
-        print(f"{i:2}    {left_border:.2f}    {right_border:.2f}    {a:.2f}    {b:.2f}    {f_a:.2f}    {f_b:.2f}")
+        iters_data = np.append(iters_data, [left_border, right_border, a, b, f_a, f_b])
     m = (a + b) / 2
-    return m, func(m)
+    return m, func(m), iters_data.reshape((iters_data.size // 6, 6))
