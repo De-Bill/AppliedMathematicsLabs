@@ -1,9 +1,4 @@
-import math
 import numpy as np
-
-
-def f(x):
-    return math.sin(x) - math.log(pow(x, 2)) - 1
 
 
 def dichotomy_search(func, left_border: float, right_border: float, precision: float):
