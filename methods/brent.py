@@ -2,81 +2,76 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def brent(a, b, epsilon):
-    inner_a = a
-    inner_b = b
+def brent(func, left_border, right_border, epsilon):
+    inner_a = left_border
+    inner_b = right_border
     k = (3 - np.sqrt(5)) / 2
-    x = w = v = a + k * (b - a)
-    f_x = f_w = f_v = f(x)
-    d = e = b - a
+    x1 = x2 = x3 = left_border + k * (right_border - left_border)
+    f_x1 = f_x2 = f_x3 = func(x1)
+    current_length = prev_length = right_border - left_border
 
     counter = 0
+    parabola_top = f_top = 0
     while True:
-        g, e = e, d
-        tol = epsilon * (np.abs(x) + 0.01)
-        if np.abs(x - (a + b) / 2) + (b - a) / 2 <= 2 * tol:
+        g, prev_length = prev_length, current_length
+        if np.abs(x1 - (left_border + right_border) / 2) + (right_border - left_border) / 2 <= 2 * epsilon:
             break
 
-        u = 0
-        if x != w and x != v and w != v and f_x != f_w and f_x != f_v and f_w != f_v:
-            u = w - ((np.power(w - x, 2) * (f_w - f_v) - np.power(v - w, 2) * (f_w - f_x)) /
-                     (2 * ((w - x) * (f_w - f_v) - (w - v) * (f_w - f_x))))
-            if a <= u <= b and np.abs(u - x) < g / 2:
+        if x1 != x2 and x1 != x3 and x2 != x3 and f_x1 != f_x2 and f_x1 != f_x3 and f_x2 != f_x3:
+            parabola_top = x2 - ((np.power(x2 - x1, 2) * (f_x2 - f_x3) - np.power(x3 - x2, 2) * (f_x2 - f_x1)) /
+                                 (2 * ((x2 - x1) * (f_x2 - f_x3) - (x2 - x3) * (f_x2 - f_x1))))
+            if left_border <= parabola_top <= right_border and np.abs(parabola_top - x1) < g / 2:
 
-                if u - a < 2 * tol or b - u < 2 * tol:
-                    u = x - np.sign(x - (a + b) / 2) * tol
-
-        if u == 0:
-            if x < (a + b) / 2:
-                u = x + k * (b - x)
-                e = b - x
-            else:
-                u = x - k * (x - a)
-                e = x - a
-
-        if np.abs(u - x) < tol:
-            u = x + np.sign(u - x) * tol
-
-        d = np.abs(u - x)
-        f_u = f(u)
-
-        if f_u <= f_x:
-            if u >= x:
-                a = x
-            else:
-                b = x
-
-            v, w, x = w, x, u
-            f_v, f_w, f_x = f_w, f_x, f_u
+                if parabola_top - left_border <= 2 * epsilon or right_border - parabola_top <= 2 * epsilon:
+                    parabola_top = x1 - np.sign(x1 - (left_border + right_border) / 2) * epsilon
 
         else:
-            if u >= x:
-                b = u
+            if x1 < (left_border + right_border) / 2:
+                parabola_top = x1 + k * (right_border - x1)
+                prev_length = right_border - x1
             else:
-                a = u
+                parabola_top = x1 - k * (x1 - left_border)
+                prev_length = x1 - left_border
 
-            if f_u <= f_w or w == x:
-                v, w = w, u
-                f_v, f_w = f_w, f_u
-            elif f_u <= f_v or v == x or v == w:
-                v = u
-                f_v = f_u
+        if np.abs(parabola_top - x1) < epsilon:
+            parabola_top = x1 + np.sign(parabola_top - x1) * epsilon
 
-        print(f'iter {counter}:\n', f'u and f_u: {u}, {f_u}')
+        current_length = np.abs(parabola_top - x1)
+        f_top = func(parabola_top)
+
+        if f_top <= f_x1:
+            if parabola_top >= x1:
+                left_border = x1
+            else:
+                right_border = x1
+
+            x3, x2, x1 = x2, x1, parabola_top
+            f_x3, f_x2, f_x1 = f_x2, f_x1, f_top
+
+        else:
+            if parabola_top >= x1:
+                right_border = parabola_top
+            else:
+                left_border = parabola_top
+
+            if f_top <= f_x2 or x2 == x1:
+                x3, x2 = x2, parabola_top
+                f_x3, f_x2 = f_x2, f_top
+            elif f_top <= f_x3 or x3 == x1 or x3 == x2:
+                x3 = parabola_top
+                f_x3 = f_top
+
+        print(f'iter {counter}:\n', f'parabola_top and f_top: {parabola_top}, {f_top}')
         counter += 1
-        plt.scatter(u, f_u, marker="x", c="red", s=70)
+
+    plt.scatter(parabola_top, f_top, marker="x", c="red", s=70)
 
     x_axis = np.linspace(inner_a + 0.01, inner_b, 1000)
-    y_axis = f(x_axis)
+    y_axis = func(x_axis)
 
     plt.plot(x_axis, y_axis, color="grey")
-    plt.xlabel("x")
-    plt.ylabel("y = sin(x) - ln(x**2) - 1")
+    plt.xlabel("x1")
+    plt.ylabel("y = sin(x1) - ln(x1**2) - 1")
     plt.show()
 
-
-def f(x):
-    return np.sin(x) - np.log(np.power(x, 2)) - 1
-
-
-brent(0, 8, 0.01)
+    return parabola_top, f_top
