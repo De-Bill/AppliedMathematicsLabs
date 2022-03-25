@@ -2,7 +2,6 @@ import numpy as np
 
 
 def dichotomy_search(func, left_border: float, right_border: float, precision: float):
-
     middle_x = (left_border + right_border) / 2
     f_left = func(left_border)
     f_right = func(right_border)
