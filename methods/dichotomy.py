@@ -3,28 +3,22 @@ import numpy as np
 
 def dichotomy_search(func, left_border: float, right_border: float, precision: float):
 
-    middlex = (left_border + right_border) / 2
-    left = func(left_border)
-    right = func(right_border)
-    i = 0
-    iters_data = np.array([left_border, right_border, middlex, func(middlex)])
+    middle_x = (left_border + right_border) / 2
+    f_left = func(left_border)
+    f_right = func(right_border)
+    iters_data = np.array([left_border, right_border, middle_x, func(middle_x)])
     while abs(right_border - left_border) > precision:
-        i+=1
-        if left > right:
-            if func(middlex) < left:
-                left_border = middlex
-                left = func(left_border)
-                middlex = (left_border + right_border) / 2
+        if f_left > f_right:
+            if func(middle_x) < f_left:
+                left_border = middle_x
+                f_left = func(left_border)
+                middle_x = (left_border + right_border) / 2
         else:
-            if func(middlex) < right:
-                right_border = middlex
-                right = func(right_border)
-                middlex = (left_border + right_border) / 2
+            if func(middle_x) < f_right:
+                right_border = middle_x
+                f_right = func(right_border)
+                middle_x = (left_border + right_border) / 2
 
-        iters_data = np.append(iters_data, [left_border, right_border, middlex, func(middlex)])
+        iters_data = np.append(iters_data, [left_border, right_border, middle_x, func(middle_x)])
 
-    return middlex, func(middlex), iters_data.reshape((iters_data.size // 4, 4))
-
-
-print("-------------------DICHOTOMY------------------")
-print("the end")
+    return middle_x, func(middle_x), iters_data.reshape((iters_data.size // 4, 4))
