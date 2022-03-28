@@ -1,10 +1,7 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 def brent(func, left_border, right_border, epsilon):
-    inner_a = left_border
-    inner_b = right_border
     k = (3 - np.sqrt(5)) / 2
     x1 = x2 = x3 = left_border + k * (right_border - left_border)
     f_x1 = f_x2 = f_x3 = func(x1)
@@ -12,6 +9,7 @@ def brent(func, left_border, right_border, epsilon):
 
     counter = 0
     parabola_top = f_top = 0
+    iter_data = np.array([])
     while True:
         g, prev_length = prev_length, current_length
         if np.abs(x1 - (left_border + right_border) / 2) + (right_border - left_border) / 2 <= 2 * epsilon:
@@ -61,17 +59,7 @@ def brent(func, left_border, right_border, epsilon):
                 x3 = parabola_top
                 f_x3 = f_top
 
-        print(f'iter {counter}:\n', f'parabola_top and f_top: {parabola_top}, {f_top}')
         counter += 1
+        iter_data = np.append(iter_data, [left_border, right_border, x1, x2, x3, parabola_top, f_x1, f_x2, f_x3, f_top])
 
-    plt.scatter(parabola_top, f_top, marker="x", c="red", s=70)
-
-    x_axis = np.linspace(inner_a + 0.01, inner_b, 1000)
-    y_axis = func(x_axis)
-
-    plt.plot(x_axis, y_axis, color="grey")
-    plt.xlabel("x1")
-    plt.ylabel("y = sin(x1) - ln(x1**2) - 1")
-    plt.show()
-
-    return parabola_top, f_top
+    return parabola_top, f_top, iter_data.reshape((iter_data.size // 10, 10))
