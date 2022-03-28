@@ -59,6 +59,7 @@ def brent(func, left_border, right_border, epsilon):
                 x3 = parabola_top
                 f_x3 = f_top
 
+
         counter += 1
         iter_data = np.append(iter_data, [left_border, right_border, x1, x2, x3, parabola_top, f_x1, f_x2, f_x3, f_top])
 
