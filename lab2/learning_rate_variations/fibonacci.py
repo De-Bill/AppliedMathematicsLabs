@@ -4,8 +4,12 @@ import lab2.given_func as given
 from lab1.methods.fibonacci import fibonacci_search
 
 
-def grad_desc_fibonacci_step(x_start, y_start, precision, n_iterations_for_fibonacci):
+def grad_desc_with_fibonacci_step(x_start, y_start, precision, n_iterations_for_fibonacci):
     iteration = 0
+    print(
+        f"iteration: {iteration:.3f}    x:, {x_start:.3f}    y: {y_start:.3f}    f(x,y): {given.f(x_start, y_start):.5f}")
+    iteration += 1
+
     points = np.array([x_start, y_start])
     while True:
         dx, dy = given.df_x(x_start, y_start), given.df_y(x_start, y_start)
