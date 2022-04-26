@@ -1,5 +1,4 @@
 import numpy as np
-from lab2.given_func import grad as gradient
 
 
 def f(x, y):  # given func
@@ -28,10 +27,16 @@ def norm(x):  # vector_length
     return np.sqrt(np.power(x[0], 2) + np.power(x[1], 2))
 
 
-def conjugate_gradient(epsilon):
-    start = [0, 0]
-    start_grad = gradient(start)
+def find_step(x_prev, func):
+    return func(x_prev[0], x_prev[1])
 
+
+def conjugate_gradient(epsilon):
+    x_prev = np.array([0, 1], dtype='float64')
+    prev_gradient = grad(x_prev)
+    prev_grad_norm = norm(prev_gradient)
+
+    n = 2
     k = 0
     x_k = np.array([0, 0], dtype='float64')
     beta = alfa = 0
@@ -44,23 +49,19 @@ def conjugate_gradient(epsilon):
         gradient = grad(x_k)
         grad_norm = norm(gradient)
 
+        if k == 0:
+            step = find_step(x_prev, calculate_step_f)
+            x_prev = x_k
+            x_k = x_prev - step * prev_gradient
 
-def ConjGrad(a, b, x):
-    r = (b - np.dot(np.array(a), x))
-    p = r
-    rsold = np.dot(r.T, r)
+            k += 1
+            continue
 
-    for i in range(len(b)):
-        a_p = np.dot(a, p)
-        alpha = rsold / np.dot(p.T, a_p)
-        x = x + (alpha * p)
-        r = r - (alpha * a_p)
-        rsnew = np.dot(r.T, r)
-        if np.sqrt(rsnew) < (10 ** -5):
-            break
-        p = r + ((rsnew / rsold) * p)
-        rsold = rsnew
-    return p
+        step = find_step(x_prev, calculate_step_f)
+        x_prev = x_k
+        x_k = x_prev - step * prev_gradient
+
+        k += 1
 
 
-print(ConjGrad(np.array))
+conjugate_gradient(0.01)
