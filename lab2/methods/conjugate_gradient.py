@@ -5,9 +5,16 @@ def f(x, y):  # given func
     return x * x + 2 * y * y + 2 * x * y
 
 
-def calculate_step_f(x_coeff, y_coeff):
-    return (x_coeff + y_coeff) / \
-           (4 * x_coeff + 6 * y_coeff)
+def square_form_f():
+    return 2 * np.array([[1, 1], [1, 2]], dtype='float64')  # double square form
+
+
+def calculate_step(gradient, d_k, square_form=square_form_f):
+    return - (gradient.T @ d_k) / (d_k.T @ square_form() @ d_k)
+
+
+def calculate_beta(gradient, d_k, square_form=square_form_f):
+    return (gradient.T @ square_form() @ d_k) / (d_k.T @ square_form() @ d_k)
 
 
 def df_x(x, y):  # derivative of the given func -- df/dx
@@ -18,45 +25,39 @@ def df_y(x, y):  # -- df/dy
     return 4 * y + 2 * x
 
 
-def grad(x):
+def grad_f(x):
     return np.array([df_x(x[0], x[1]), df_y(x[0], x[1])])
 
 
-def norm(x):  # vector_length
-    return np.sqrt(np.power(x[0], 2) + np.power(x[1], 2))
-
-
-def find_step(x_prev, func):
-    return func(x_prev[0], x_prev[1])
-
-
 def conjugate_gradient(epsilon):
-    x_prev = np.array([-50, -50], dtype='float64')
-    prev_gradient = grad(x_prev)
     k = 0
-    x_k = np.array([-50, -50], dtype='float64')
-    while True:
-        prev_gradient = grad(x_prev)
-        prev_grad_norm = norm(prev_gradient)
-        print(
-            f"iteration: {k:.3f}    x:, {x_prev[0]:.3f}    y: {x_prev[1]:.3f}    f(x,y): {f(x_prev[0], x_prev[1]):.5f}")
+    x_k = np.array([-1000, -1200], dtype='float64')
 
-        if prev_grad_norm <= epsilon:
-            return f(x_prev[0], x_prev[1]), k
+    alpha_k = 0
+    while True:
+        gradient = grad_f(x_k)
+        grad_norm = np.linalg.norm(gradient)
+
+        print(
+            f"iteration: {k}    x:, {x_k[0]:.3f}    y: {x_k[1]:.3f}    f(x,y): {f(x_k[0], x_k[1]):.5f}")
+
+        if grad_norm <= epsilon:
+            return f(x_k[0], x_k[1]), k
 
         if k == 0:
-            step = find_step(x_prev, calculate_step_f)
-            x_prev = x_k
-            x_k = x_prev - step * prev_gradient
-
+            alpha_k = -gradient
+            step = calculate_step(gradient, alpha_k)
+            x_k += step * alpha_k
             k += 1
             continue
 
-        step = find_step(x_prev, calculate_step_f)
-        x_prev = x_k
-        x_k = x_prev - step * prev_gradient
+        beta_k = calculate_beta(gradient, alpha_k)
+        alpha_k = -gradient + beta_k * alpha_k
+
+        step = calculate_step(gradient, alpha_k)
+        x_k += step * alpha_k
 
         k += 1
 
 
-print(conjugate_gradient(0.05))
+print(conjugate_gradient(0.0001))
