@@ -32,7 +32,7 @@ def find_step(x_prev, func):
 
 
 def conjugate_gradient(epsilon):
-    x_prev = np.array([0, 1], dtype='float64')
+    x_prev = np.array([-5, -5], dtype='float64')
     prev_gradient = grad(x_prev)
     prev_grad_norm = norm(prev_gradient)
 
@@ -44,7 +44,7 @@ def conjugate_gradient(epsilon):
         prev_gradient = grad(x_prev)
         prev_grad_norm = norm(prev_gradient)
         if prev_grad_norm <= epsilon:
-            return f(x_k[0], x_k[1])
+            return f(x_prev[0], x_prev[1])
 
         gradient = grad(x_k)
         grad_norm = norm(gradient)
@@ -64,4 +64,4 @@ def conjugate_gradient(epsilon):
         k += 1
 
 
-conjugate_gradient(0.01)
+print(conjugate_gradient(0.05))
