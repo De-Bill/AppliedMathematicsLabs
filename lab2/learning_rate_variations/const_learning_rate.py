@@ -6,9 +6,9 @@ import lab2.given_func as given
 
 
 # arguments
-n_iterations = 30
-x_start = 0
-y_start = 0
+n_iterations = 5
+x_start = -50
+y_start = -50
 learning_rate = 0.05
 
 for i in range(n_iterations):

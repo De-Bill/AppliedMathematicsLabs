@@ -9,7 +9,7 @@ from lab1.methods.fibonacci import fibonacci_search
 # arguments
 precision = 0.05
 n_iterations_for_fibonacci = 10
-x_start, y_start = 0, 0
+x_start, y_start = -50, -50
 
 iteration = 0
 while True:

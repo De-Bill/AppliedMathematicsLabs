@@ -8,7 +8,7 @@ from lab1.methods.golden_ratio import golden_ratio_search
 
 # arguments
 precision = 0.05
-x_start, y_start = 0, 0
+x_start, y_start = -50, -50
 
 iteration = 0
 while True:
