@@ -17,7 +17,9 @@ precision = 0.06
 points = grad_desc_with_fractional_step(x_start, y_start, 0.2, precision, 0.1, 0.95)
 
 ax = plt.subplots()[1]
-for i in range(0, points.size, 2):
-    ax.scatter(points[i], points[i+1])
-plt.contour(X, Y, F, 40)
+
+ax.scatter(points[0:len(points):2], points[1:len(points):2], marker='*', color='red')
+ax.plot(points[0:len(points):2], points[1:len(points):2])
+ax.contour(X, Y, F, 40)
+
 plt.show()
