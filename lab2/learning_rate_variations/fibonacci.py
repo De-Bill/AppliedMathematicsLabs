@@ -7,7 +7,7 @@ from lab1.methods.fibonacci import fibonacci_search
 def grad_desc_with_fibonacci_step(x_start, y_start, precision, n_iterations_for_fibonacci):
     iteration = 0
     print(
-        f"iteration: {iteration:.3f}    x:, {x_start:.3f}    y: {y_start:.3f}    f(x,y): {given.f(x_start, y_start):.5f}")
+        f"iteration: {iteration}    x:, {x_start:.3f}    y: {y_start:.3f}    f(x,y): {given.f(x_start, y_start):.5f}")
     iteration += 1
 
     points = np.array([x_start, y_start])
@@ -23,7 +23,7 @@ def grad_desc_with_fibonacci_step(x_start, y_start, precision, n_iterations_for_
         y_start = y_start - learning_rate * dy
         points = np.append(points, [x_start, y_start])
 
-        print(f"iteration: {iteration:.3f}    x:, {x_start:.3f}    y: {y_start:.3f}    f(x,y): {given.f(x_start, y_start):.5f}")
+        print(f"iteration: {iteration}    x:, {x_start:.3f}    y: {y_start:.3f}    f(x,y): {given.f(x_start, y_start):.5f}")
         iteration += 1
 
         if np.abs(dx) <= precision and np.abs(dy) <= precision:
