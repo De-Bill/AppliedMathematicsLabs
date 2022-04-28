@@ -7,7 +7,7 @@ from lab1.methods.golden_ratio import golden_ratio_search
 def grad_desc_with_golden_ratio_step(x_start, y_start, precision):
     iteration = 0
     print(
-        f"iteration: {iteration:.3f}    x:, {x_start:.3f}    y: {y_start:.3f}    f(x,y): {given.f(x_start, y_start):.5f}")
+        f"iteration: {iteration}    x:, {x_start:.3f}    y: {y_start:.3f}    f(x,y): {given.f(x_start, y_start):.5f}")
     iteration += 1
 
     points = np.array([x_start, y_start])
@@ -24,7 +24,7 @@ def grad_desc_with_golden_ratio_step(x_start, y_start, precision):
         points = np.append(points, [x_start, y_start])
 
         print(
-            f"iteration: {iteration:.3f}    x:, {x_start:.3f}    y: {y_start:.3f}    f(x,y): {given.f(x_start, y_start):.5f}")
+            f"iteration: {iteration}    x:, {x_start:.3f}    y: {y_start:.3f}    f(x,y): {given.f(x_start, y_start):.5f}")
         iteration += 1
 
         if np.abs(dx) <= precision and np.abs(dy) <= precision:
