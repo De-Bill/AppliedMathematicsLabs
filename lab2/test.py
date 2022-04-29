@@ -36,6 +36,10 @@ F = given.f(X, Y)
 x_start, y_start = 1, 1
 precision = 0.06
 points = conjugate_gradient(x_start=x_start, y_start=y_start, epsilon=precision)
+# points = grad_desc_with_const_lr(x_start=x_start, y_start=y_start, learning_rate=0.05, precision=precision)
+# points = grad_desc_with_fractional_step(x_start=x_start, y_start=y_start, learning_rate=0.1, precision=precision, epsilon=0.1, delta=0.95)
+# points = grad_desc_with_golden_ratio_step(x_start=x_start, y_start=y_start, precision=precision)
+# points = grad_desc_with_fibonacci_step(x_start=x_start, y_start=y_start, precision=precision, n_iterations_for_fibonacci= 10)
 
 ax = plt.subplots()[1]
 
