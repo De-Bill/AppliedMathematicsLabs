@@ -29,20 +29,23 @@ def grad_f(x):
     return np.array([df_x(x[0], x[1]), df_y(x[0], x[1])])
 
 
-def conjugate_gradient(epsilon):
+def conjugate_gradient(x_start, y_start, epsilon):
     k = 0
-    x_k = np.array([-1000, -1200], dtype='float64')
+    x_k = np.array([x_start, y_start], dtype='float64')
 
+    points = []
     alpha_k = 0
     while True:
         gradient = grad_f(x_k)
         grad_norm = np.linalg.norm(gradient)
+        points.append(x_k[0])
+        points.append(x_k[1])
 
         print(
-            f"iteration: {k}    x:, {x_k[0]:.3f}    y: {x_k[1]:.3f}    f(x,y): {f(x_k[0], x_k[1]):.5f}")
+            f"iteration: {k}    x: {x_k[0]:.3f}    y: {x_k[1]:.3f}    f(x,y): {f(x_k[0], x_k[1]):.5f}")
 
         if grad_norm <= epsilon:
-            return f(x_k[0], x_k[1]), k
+            return np.array(points)
 
         if k == 0:
             alpha_k = -gradient
@@ -58,6 +61,3 @@ def conjugate_gradient(epsilon):
         x_k += step * alpha_k
 
         k += 1
-
-
-print(conjugate_gradient(0.0001))
