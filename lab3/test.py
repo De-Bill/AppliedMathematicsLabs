@@ -2,45 +2,46 @@ import numpy as np
 import pprint
 import scipy.linalg
 
+from lab3.compressed_sparse_column import csc
 from lu_decomposition import lu_decomposition
 from solving_linear_system import *
 from matrix_inverse import *
 
 
-A = np.array([[7, 3, -1, 2], [3, 8, 1, -4], [-1, 1, 4, -1], [2, -4, -1, 6]], dtype=np.float_)
-P, L, U = lu_decomposition(np.copy(A))
+# Decomposition check
+A = np.array([[7, 0, 0, 2], [3, 8, 0, 0], [0, 0, 4, 0], [0, 0, 0, 6]], dtype=np.float_)
+data, col_ind, indptr = csc(A)
+L, U = lu_decomposition(csc_array((data, col_ind, indptr), shape=(4, 4)))
 
 print("A:")
 pprint.pprint(A)
-
-print("P:")
-pprint.pprint(P)
 
 print("L:")
-pprint.pprint(L)
+pprint.pprint(L.toarray())
 
 print("U:")
-pprint.pprint(U)
+pprint.pprint(U.toarray())
 
-print("A:")
-pprint.pprint(A)
+print("First decomposition is correct: ", np.allclose(A, L.toarray() @ U.toarray()))
 
-print("PLU:")
-pprint.pprint(P @ L @ U)
-
-print("A == PLU?:", np.allclose(A, P @ L @ U))
-
-
-A = np.array([[1, 5, 5], [6, 9, 22], [32, 5., 5]])
+# Solving linear system check
+A = np.array([[1, 5, 5], [6, 9, 22], [32, 5, 5]])
 b = np.array([1, 2, 7])
-P, L, U = lu_decomposition(A)
-x = plu_solve(P, L, U, b)
+data, col_ind, indptr = csc(A)
+L, U = lu_decomposition(csc_array((data, col_ind, indptr), shape=(3, 3)))
+print("Second decomposition is correct: ", np.allclose(A, L.toarray() @ U.toarray()))
+x = lu_solve(L, U, b)
 print("x:")
 print(x)
-print('Solving system is correct:', np.allclose(x, scipy.linalg.solve(A, b)))
+x_correct = scipy.linalg.solve(A, b)
+print("x_correct:")
+print(x_correct)
+print('Solving system is correct:', np.allclose(x, x_correct))
 
-A = np.array([[2, -1, 0],[-1, 2, -1.], [0, -1, 2.]])
-P, L, U = lu_decomposition(A)
-inv = lu_inverse(P, L, U)
-print(inv)
-print('Inverse matrix is correct:', np.allclose(inv, np.linalg.inv(A)))
+# Matrix inverse check
+A = np.array([[2, -1, 0], [-1, 2, -1.], [0, -1, 2.]])
+data, col_ind, indptr = csc(A)
+L, U = lu_decomposition(csc_array((data, col_ind, indptr), shape=(3, 3)))
+inv = lu_inverse(L, U)
+print(inv.toarray())
+print('Inverse matrix is correct:', np.allclose(inv.toarray(), np.linalg.inv(A)))

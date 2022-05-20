@@ -1,21 +1,22 @@
 import numpy as np
+from scipy.sparse import csc_array
 
 
-def plu_solve(P, L, U, b):
-    y = forward_substitution(L, P @ b)
+def lu_solve(L : csc_array, U : csc_array, b):
+    y = forward_substitution(L, b)
     return backward_substitution(U, y)
 
 
-def forward_substitution(L, b):
+def forward_substitution(L : csc_array, b):
     # Get number of rows
     n = L.shape[0]
 
     # Allocating space for the solution vector
-    y = np.zeros_like(b)
+    y = np.zeros_like(b, dtype=np.float_)
 
     # Here we perform the forward-substitution.
     # Initializing with the first row.
-    y[0] = b[0] / L[0, 0]
+    y[0] = b[0] / L[0, 0]  # == b[0] / 1
 
     # Looping over rows from the top down,
     # starting with the second to last row, because  the
@@ -29,12 +30,12 @@ def forward_substitution(L, b):
     return y
 
 
-def backward_substitution(U, y):
+def backward_substitution(U : csc_array, y):
     # Number of rows
     n = U.shape[0]
 
     # Allocating space for the solution vector
-    x = np.zeros_like(y)
+    x = np.zeros_like(y, dtype=np.float_)
 
     # Here we perform the back-substitution.
     # Initializing with the last row.
