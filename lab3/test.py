@@ -9,6 +9,7 @@ from lu_decomposition import lu_decomposition
 from solving_linear_system import *
 from matrix_inverse import *
 from seidal_gauss import *
+from l3_t4_testing import *
 
 
 # Decomposition check
@@ -56,5 +57,14 @@ matrixA = np.array([[7, 3, -1, 2],
 
 y = np.array([5, 6, 7, 8], dtype='float64')
 
+print("Zeidel method")
 foo(matrixA, y) # Zeidel method
+
+print("t4")
+y =[10, 20, 30, 40]
+print(gen_diagonal_saturated_matrix(4, 20))
+print("--------------------------------------------")
+foo(gen_diagonal_saturated_matrix(4, 20), y)
+
+
 
