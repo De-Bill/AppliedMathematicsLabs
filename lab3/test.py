@@ -1,6 +1,7 @@
 import numpy as np
 import pprint
 
+
 import scipy
 from scipy import linalg
 
@@ -50,6 +51,7 @@ inv = lu_inverse(L, U)
 print(inv.toarray())
 print('Inverse matrix is correct:', np.allclose(inv.toarray(), np.linalg.inv(A)))
 
+
 matrixA = np.array([[7, 3, -1, 2],
    [3, 8, 1, -4],
    [-1, 1, 4, -1],
@@ -65,6 +67,4 @@ y =[10, 20, 30, 40]
 print(gen_diagonal_saturated_matrix(4, 20))
 print("--------------------------------------------")
 foo(gen_diagonal_saturated_matrix(4, 20), y)
-
-
 
