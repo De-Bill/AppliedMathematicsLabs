@@ -1,22 +1,18 @@
-def foo():
-   matrixA = [
-      [7, 3, -1, 2],
-      [3, 8, 1, -4],
-      [-1, 1, 4, -1],
-      [2, -4, -1, 6]
-   ]
+import numpy as np
 
-   x = [0, 0, 0, 0]
+def foo(A, B):
+   matrixA = np.copy(A)
+   y = np.copy(B)
+   n = A.shape[0]
+   x = np.zeros(A.shape[0])
 
-   y = [5, 6, 7, 8]
-
-   for i in range(4):
+   for i in range(n):
       x[i] = y[i] / matrixA[i][i]
    while True:
       x_last = x.copy()
-      for i in range(4):
+      for i in range(n):
          s = y[i]
-         for j in range(4):
+         for j in range(n):
             if i == j:
                continue
             s += (-1) * x[j] * matrixA[i][j]
@@ -35,5 +31,4 @@ def break_condition(x1: list[float], x2: list[float]): # check precision
    print(x2)
    return all(bools)
 
-foo()
 
