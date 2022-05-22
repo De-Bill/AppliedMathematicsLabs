@@ -12,5 +12,6 @@ __Algorithms for searching value of learning step:__
   2. Fractional step
   3. Golden ratio search
   4. Fibonacci search
-  5. Nonlinear conjugate gradient method
+
+ And implement __nonlinear conjugate gradient method__
   
