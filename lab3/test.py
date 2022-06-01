@@ -1,11 +1,16 @@
 import numpy as np
 import pprint
-import scipy.linalg
+
+
+import scipy
+from scipy import linalg
 
 from lab3.compressed_sparse_column import csc
 from lu_decomposition import lu_decomposition
 from solving_linear_system import *
 from matrix_inverse import *
+from seidal_gauss import *
+from l3_t4_testing import *
 
 
 # Decomposition check
@@ -45,3 +50,21 @@ L, U = lu_decomposition(csc_array((data, col_ind, indptr), shape=(3, 3)))
 inv = lu_inverse(L, U)
 print(inv.toarray())
 print('Inverse matrix is correct:', np.allclose(inv.toarray(), np.linalg.inv(A)))
+
+
+matrixA = np.array([[7, 3, -1, 2],
+   [3, 8, 1, -4],
+   [-1, 1, 4, -1],
+   [2, -4, -1, 6]], dtype='float64')
+
+y = np.array([5, 6, 7, 8], dtype='float64')
+
+print("Zeidel method")
+foo(matrixA, y) # Zeidel method
+
+print("t4")
+y =[10, 20, 30, 40]
+print(gen_diagonal_saturated_matrix(4, 20))
+print("--------------------------------------------")
+foo(gen_diagonal_saturated_matrix(4, 20), y)
+
