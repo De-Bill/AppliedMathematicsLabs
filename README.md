@@ -20,6 +20,6 @@ __Algorithms for searching value of learning step:__
   2. Seidel method (iterational method)
   3. Test these methods on diagonal saturated matrices and on Hilbert matrices
 
-## Lab №4: Implement and analyze Jacobi rotating method for finding eigenvalues of matrices
+## Lab №4: Implement and analyze Jacobi rotating method for finding eigenvalues matrices
   1. Jacobi rotations
   2. Test this method on diagonal saturated matrices and on Hilbert matrices 
