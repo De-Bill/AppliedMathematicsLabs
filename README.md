@@ -15,3 +15,11 @@ __Algorithms for searching value of learning step:__
 
  And implement __nonlinear conjugate gradient method__
   
+## Lab №3: Implement and analyze methods for solving linear equation systems
+  1. LU-decomposition method with Gauss method (direct method)
+  2. Seidel method (iterational method)
+  3. Test these methods on diagonal saturated matrices and on Hilbert matrices
+
+## Lab №4: Implement and analyze Jacobi rotating method for finding eigenvalues of matrices
+  1. Jacobi rotations
+  2. Test this method on diagonal saturated matrices and on Hilbert matrices 
